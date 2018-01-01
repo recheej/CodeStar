@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CodeStar</string>
+    <string name="username_one">Username one</string>
+    <string name="username_two">Username Two</string>
+    <string name="start">Start</string>
+    <string name="usernames_blank_error">Please enter both usernames</string>
+</resources>
