@@ -38,7 +38,7 @@ public class UserNameFormError {
         this.error = error;
     }
 
-    enum ErrorTarget {
+    public enum ErrorTarget {
         USERNAME_ONE,
         USERNAME_TWO,
         GENERAL

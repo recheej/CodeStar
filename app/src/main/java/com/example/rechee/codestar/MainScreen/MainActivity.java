@@ -2,6 +2,7 @@ package com.example.rechee.codestar.MainScreen;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rechee.codestar.GameWinner.GameWinnerActivity;
 import com.example.rechee.codestar.R;
+import com.example.rechee.codestar.User;
 
 import java.util.Objects;
 
@@ -84,16 +87,21 @@ public class MainActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                viewModel.setUserName(usernameOne, UserNameFormError.ErrorTarget.USERNAME_ONE);
-                viewModel.getUserID().observe(MainActivity.this, new Observer<Integer>() {
+                viewModel.getUser(usernameOne, UserNameFormError.ErrorTarget.USERNAME_ONE).observe(MainActivity.this, new Observer<User>() {
                     @Override
-                    public void onChanged(@Nullable Integer integer) {
-                        viewModel.setUserName(usernameTwo, UserNameFormError.ErrorTarget.USERNAME_TWO);
-                        viewModel.getUserID().observe(MainActivity.this, new Observer<Integer>() {
+                    public void onChanged(@Nullable final User userOne) {
+                        viewModel.getUser(usernameTwo, UserNameFormError.ErrorTarget.USERNAME_TWO).observe(MainActivity.this, new Observer<User>() {
                             @Override
-                            public void onChanged(@Nullable Integer integer) {
-
+                            public void onChanged(@Nullable User userTwo) {
                                 progressBar.setVisibility(View.GONE);
+
+                                Intent gameWinnerIntent = new Intent(MainActivity.this,
+                                        GameWinnerActivity.class);
+
+                                gameWinnerIntent.putExtra("userIdOne", usernameOne);
+                                gameWinnerIntent.putExtra("userIdTwo", usernameTwo);
+
+                                MainActivity.this.startActivity(gameWinnerIntent);
                             }
                         });
                     }
