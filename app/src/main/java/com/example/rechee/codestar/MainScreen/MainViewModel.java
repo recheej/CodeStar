@@ -6,18 +6,13 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
-import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.rechee.codestar.CodeStarApplication;
 import com.example.rechee.codestar.Enumerations;
 import com.example.rechee.codestar.R;
-import com.example.rechee.codestar.User;
-import com.example.rechee.codestar.UserRepository;
-import com.example.rechee.codestar.dagger.application.DaggerApplicationComponent;
 import com.example.rechee.codestar.dagger.viewmodel.RepositoryModule;
-import com.example.rechee.codestar.dagger.viewmodel.ViewModelComponent;
 
 import javax.inject.Inject;
 

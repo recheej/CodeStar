@@ -1,6 +1,8 @@
-package com.example.rechee.codestar;
+package com.example.rechee.codestar.MainScreen;
 
 import android.arch.lifecycle.LiveData;
+
+import com.example.rechee.codestar.Enumerations;
 
 /**
  * Created by Rechee on 1/1/2018.

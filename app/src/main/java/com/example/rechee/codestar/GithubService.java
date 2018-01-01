@@ -1,6 +1,6 @@
-package com.example.rechee.codestar.MainScreen;
+package com.example.rechee.codestar;
 
-import com.example.rechee.codestar.User;
+import com.example.rechee.codestar.MainScreen.User;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

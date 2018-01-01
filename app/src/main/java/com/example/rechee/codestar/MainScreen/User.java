@@ -1,4 +1,4 @@
-package com.example.rechee.codestar;
+package com.example.rechee.codestar.MainScreen;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

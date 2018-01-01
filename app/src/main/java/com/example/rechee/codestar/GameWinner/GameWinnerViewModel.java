@@ -11,10 +11,10 @@ import android.support.annotation.NonNull;
 
 import com.example.rechee.codestar.CodeStarApplication;
 import com.example.rechee.codestar.Enumerations;
+import com.example.rechee.codestar.MainScreen.User;
 import com.example.rechee.codestar.MainScreen.UserNameFormError;
+import com.example.rechee.codestar.MainScreen.UserRepository;
 import com.example.rechee.codestar.R;
-import com.example.rechee.codestar.User;
-import com.example.rechee.codestar.UserRepository;
 import com.example.rechee.codestar.dagger.viewmodel.RepositoryModule;
 
 import javax.inject.Inject;

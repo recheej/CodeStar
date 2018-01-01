@@ -3,7 +3,8 @@ package com.example.rechee.codestar;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.example.rechee.codestar.MainScreen.GithubService;
+import com.example.rechee.codestar.MainScreen.User;
+import com.example.rechee.codestar.MainScreen.UserRepository;
 
 import javax.inject.Inject;
 

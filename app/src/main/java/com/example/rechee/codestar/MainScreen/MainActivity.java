@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.example.rechee.codestar.GameWinner.GameWinnerActivity;
 import com.example.rechee.codestar.R;
-import com.example.rechee.codestar.User;
 
 import java.util.Objects;
 

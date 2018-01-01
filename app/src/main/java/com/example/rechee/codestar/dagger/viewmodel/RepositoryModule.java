@@ -1,7 +1,7 @@
 package com.example.rechee.codestar.dagger.viewmodel;
 
-import com.example.rechee.codestar.MainScreen.GithubService;
-import com.example.rechee.codestar.UserRepository;
+import com.example.rechee.codestar.GithubService;
+import com.example.rechee.codestar.MainScreen.UserRepository;
 import com.example.rechee.codestar.UserRepositoryNetwork;
 
 import dagger.Module;
