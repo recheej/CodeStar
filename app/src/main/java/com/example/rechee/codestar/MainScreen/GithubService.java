@@ -11,6 +11,6 @@ import retrofit2.http.Path;
  */
 
 public interface GithubService {
-    @GET("/search/users/{username}")
+    @GET("/users/{username}")
     Call<User> getUser(@Path("username") String username);
 }

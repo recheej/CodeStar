@@ -4,4 +4,8 @@
     <string name="username_two">Username Two</string>
     <string name="start">Start</string>
     <string name="usernames_blank_error">Please enter both usernames</string>
+    <string name="invalid_username">Invalid username</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="error_rate_limited">Github request rate has been limited. Please wait at least an hour to make another request</string>
+    <string name="error_usernames_equal">Please enter different usernames.</string>
 </resources>

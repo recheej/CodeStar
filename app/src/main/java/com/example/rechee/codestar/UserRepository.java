@@ -8,4 +8,5 @@ import android.arch.lifecycle.LiveData;
 
 public interface UserRepository {
     LiveData<User> getUser(String username);
+    LiveData<Enumerations.Error> getError();
 }

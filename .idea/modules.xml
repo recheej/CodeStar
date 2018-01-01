@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CodeStar.iml" filepath="$PROJECT_DIR$/.idea/CodeStar.iml" />
       <module fileurl="file://C:\dev\android\CodeStar\CodeStar.iml" filepath="C:\dev\android\CodeStar\CodeStar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\dev\android\CodeStar\app\app.iml" filepath="C:\dev\android\CodeStar\app\app.iml" />
     </modules>
   </component>
