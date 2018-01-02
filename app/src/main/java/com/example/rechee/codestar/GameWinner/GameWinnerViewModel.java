@@ -11,11 +11,11 @@ import android.support.annotation.NonNull;
 
 import com.example.rechee.codestar.CodeStarApplication;
 import com.example.rechee.codestar.Enumerations;
-import com.example.rechee.codestar.MainScreen.User;
 import com.example.rechee.codestar.MainScreen.UserNameFormError;
-import com.example.rechee.codestar.MainScreen.UserRepository;
 import com.example.rechee.codestar.R;
 import com.example.rechee.codestar.dagger.viewmodel.RepositoryModule;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,12 +25,12 @@ import javax.inject.Inject;
 
 public class GameWinnerViewModel extends AndroidViewModel {
     private final Context context;
-    private UserNameFormError.ErrorTarget currentTarget;
-    private LiveData<UserNameFormError> errorLiveData;
-
+    private LiveData<UserNameFormError> error;
+    private LiveData<List<Repo>> repos;
+    private MutableLiveData<String> username;
 
     @Inject
-    UserRepository userRepository;
+    RepoRepository repoRepository;
 
     public GameWinnerViewModel(@NonNull Application application) {
         super(application);
@@ -41,13 +41,12 @@ public class GameWinnerViewModel extends AndroidViewModel {
                 .newViewModelComponent(new RepositoryModule())
                 .inject(this);
 
-        this.errorLiveData = Transformations.map(userRepository.getError(), new Function<Enumerations.Error, UserNameFormError>() {
+        username = new MutableLiveData<>();
+
+        this.error = Transformations.map(repoRepository.getError(), new Function<Enumerations.Error, UserNameFormError>() {
             @Override
             public UserNameFormError apply(Enumerations.Error input) {
                 switch (input){
-                    case INVALID_USERNAME:
-                        return new UserNameFormError(input, currentTarget,
-                                context.getString(R.string.invalid_username));
                     case NO_INTERNET:
                         return new UserNameFormError(input, UserNameFormError.ErrorTarget.GENERAL,
                                 context.getString(R.string.no_internet));
@@ -59,14 +58,24 @@ public class GameWinnerViewModel extends AndroidViewModel {
                 }
             }
         });
+
+        this.repos = Transformations.switchMap(username, new Function<String, LiveData<List<Repo>>>() {
+            @Override
+            public LiveData<List<Repo>> apply(String username) {
+                return repoRepository.getRepos(username);
+            }
+        });
     }
 
-    public LiveData<User> getUser(String username, UserNameFormError.ErrorTarget target){
-        this.currentTarget = target;
-        return userRepository.getUser(username);
+    public void setUsername(String usernameValue){
+        username.postValue(usernameValue);
+    }
+
+    public LiveData<List<Repo>> getRepos() {
+        return repos;
     }
 
     public LiveData<UserNameFormError> getError() {
-        return errorLiveData;
+        return error;
     }
 }

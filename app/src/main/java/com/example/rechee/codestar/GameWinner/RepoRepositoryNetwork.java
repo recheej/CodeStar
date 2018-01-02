@@ -1,10 +1,12 @@
-package com.example.rechee.codestar;
+package com.example.rechee.codestar.GameWinner;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.example.rechee.codestar.MainScreen.User;
-import com.example.rechee.codestar.MainScreen.UserRepository;
+import com.example.rechee.codestar.Enumerations;
+import com.example.rechee.codestar.GithubService;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -16,31 +18,31 @@ import retrofit2.Response;
  * Created by Rechee on 1/1/2018.
  */
 
-public class UserRepositoryNetwork implements UserRepository {
+public class RepoRepositoryNetwork implements RepoRepository {
 
     private final GithubService githubService;
 
-    private MutableLiveData<User> userLiveData;
+    private MutableLiveData<List<Repo>> reposLiveData;
     private MutableLiveData<Enumerations.Error> errorLiveData;
 
     @Inject
-    public UserRepositoryNetwork(GithubService githubService){
+    public RepoRepositoryNetwork(GithubService githubService){
         this.githubService = githubService;
         errorLiveData = new MutableLiveData<>();
     }
 
     @Override
-    public LiveData<User> getUser(String username) {
+    public LiveData<List<Repo>> getRepos(String username) {
 
-        userLiveData = new MutableLiveData<>();
+        reposLiveData = new MutableLiveData<>();
 
-        Call<User> call = githubService.getUser(username);
-        call.enqueue(new Callback<User>() {
+        Call<List<Repo>> call = githubService.getRepos(username);
+        call.enqueue(new Callback<List<Repo>>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 if(response.isSuccessful()){
                     //we got 200, user is authenticated
-                    userLiveData.postValue(response.body());
+                    reposLiveData.postValue(response.body());
                 }
                 else{
                     if(response.code() == 403){
@@ -58,12 +60,12 @@ public class UserRepositoryNetwork implements UserRepository {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<List<Repo>> call, Throwable t) {
                 errorLiveData.postValue(Enumerations.Error.NO_INTERNET);
             }
         });
 
-        return userLiveData;
+        return reposLiveData;
     }
 
     @Override

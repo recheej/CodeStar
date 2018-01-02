@@ -21,6 +21,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String USER_ID_ONE = "userIdOne";
+    public static final String USER_ID_TWO = "userIdTwo";
     private MainViewModel viewModel;
 
     @Override
@@ -97,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
                                 Intent gameWinnerIntent = new Intent(MainActivity.this,
                                         GameWinnerActivity.class);
 
-                                gameWinnerIntent.putExtra("userIdOne", usernameOne);
-                                gameWinnerIntent.putExtra("userIdTwo", usernameTwo);
+                                gameWinnerIntent.putExtra(USER_ID_ONE, usernameOne);
+                                gameWinnerIntent.putExtra(USER_ID_TWO, usernameTwo);
 
                                 MainActivity.this.startActivity(gameWinnerIntent);
                             }
