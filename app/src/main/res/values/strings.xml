@@ -9,4 +9,6 @@
     <string name="error_rate_limited">Github request rate has been limited. Please wait at least an hour to make another request</string>
     <string name="error_usernames_equal">Please enter different usernames.</string>
     <string name="number_of_stars">Number of stars: %d</string>
+    <string name="user_with_most_stars">User with most stars: </string>
+    <string name="we_have_a_winner">We have a winner!</string>
 </resources>

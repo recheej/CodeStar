@@ -1,5 +1,6 @@
 package com.example.rechee.codestar.dagger.viewmodel;
 
+import com.example.rechee.codestar.GameWinner.GameParticipantListViewModel;
 import com.example.rechee.codestar.GameWinner.GameWinnerViewModel;
 import com.example.rechee.codestar.MainScreen.MainViewModel;
 
@@ -13,5 +14,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules={RepositoryModule.class, NetModule.class})
 public interface ViewModelComponent {
     void inject(MainViewModel mainViewModel);
+    void inject(GameParticipantListViewModel mainViewModel);
     void inject(GameWinnerViewModel mainViewModel);
+
 }
