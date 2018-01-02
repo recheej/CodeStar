@@ -7,12 +7,14 @@
     android:paddingTop="20dp">
 
     <TextView
+        android:id="@+id/textView_repoName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Repo name here"
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/textView_numberOfStars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/number_of_stars"

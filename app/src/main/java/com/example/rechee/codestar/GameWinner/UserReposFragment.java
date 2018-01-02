@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,9 +51,11 @@ public class UserReposFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         errorTextView = view.findViewById(R.id.textView_error);
         recyclerView = view.findViewById(R.id.recyclerView_repos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         repos = new ArrayList<>();
         adapter = new ReposAdapter(repos);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -87,6 +90,7 @@ public class UserReposFragment extends Fragment {
                 if(newRepos != null){
                     repos.clear();
                     repos.addAll(newRepos);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });

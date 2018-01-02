@@ -25,6 +25,9 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
         public TextView repoStarsTextView;
         public ViewHolder(View itemView) {
             super(itemView);
+
+            repoNameTextView = itemView.findViewById(R.id.textView_repoName);
+            repoStarsTextView = itemView.findViewById(R.id.textView_numberOfStars);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.rechee.codestar.GameWinner;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,6 +30,9 @@ public class GameWinnerActivity extends AppCompatActivity {
         ViewPager userPager = findViewById(R.id.viewpager_user);
         this.userPagerAdapter = new UserPagerAdapter(getSupportFragmentManager());
         userPager.setAdapter(userPagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(userPager);
     }
 
     public class UserPagerAdapter extends FragmentPagerAdapter {
