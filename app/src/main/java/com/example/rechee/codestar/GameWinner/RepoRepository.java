@@ -11,6 +11,6 @@ import java.util.List;
  */
 
 public interface RepoRepository {
-    LiveData<List<Repo>> getRepos(String username);
+    List<Repo> getRepos(String username);
     LiveData<Enumerations.Error> getError();
 }

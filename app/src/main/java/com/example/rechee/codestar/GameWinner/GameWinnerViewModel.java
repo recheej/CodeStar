@@ -22,11 +22,13 @@ public class GameWinnerViewModel extends ViewModel {
     private int starCountUsernameTwo;
 
     private MutableLiveData<String> winningUser;
+    private MutableLiveData<Void> tieLiveData;
 
     public GameWinnerViewModel() {
         super();
 
         winningUser = new MutableLiveData<>();
+        tieLiveData = new MutableLiveData<>();
     }
 
     public void recordCount(String username, int starCount){
@@ -37,11 +39,21 @@ public class GameWinnerViewModel extends ViewModel {
         else{
             usernameTwo = username;
             starCountUsernameTwo = starCount;
-            winningUser.postValue(starCountUsernameOne > starCountUsernameTwo ? usernameOne : usernameTwo);
+
+            if(starCountUsernameOne == starCountUsernameTwo){
+                tieLiveData.postValue(null);
+            }
+            else{
+                winningUser.postValue(starCountUsernameOne > starCountUsernameTwo ? usernameOne : usernameTwo);
+            }
         }
     }
 
     public LiveData<String> getWinningUser() {
         return winningUser;
+    }
+
+    public LiveData<Void> getTie() {
+        return this.tieLiveData;
     }
 }

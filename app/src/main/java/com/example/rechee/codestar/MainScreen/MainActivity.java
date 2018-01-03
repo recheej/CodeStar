@@ -65,15 +65,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable UserNameFormError userNameFormError) {
                 progressBar.setVisibility(View.GONE);
+                userNameOneInputLayout.setErrorEnabled(false);
+                userNameTwoInputLayout.setErrorEnabled(false);
 
                 if(userNameFormError != null){
                     switch (userNameFormError.getError()){
                         case INVALID_USERNAME:
                             if(userNameFormError.getTarget() == UserNameFormError.ErrorTarget.USERNAME_ONE){
                                 userNameOneInputLayout.setError(userNameFormError.getErrorMessage());
+                                userNameOneInputLayout.setErrorEnabled(true);
                             }
                             else{
                                 userNameTwoInputLayout.setError(userNameFormError.getErrorMessage());
+                                userNameTwoInputLayout.setErrorEnabled(true);
                             }
                             break;
                         default:
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.getUser(UserNameFormError.ErrorTarget.USERNAME_ONE).observe(MainActivity.this, new Observer<User>() {
                     @Override
                     public void onChanged(@Nullable final User userOne) {
-                        if(!userOne.getLogin().toLowerCase().equals(usernameOne.toLowerCase())){
+                        if(userOne == null ||!userOne.getLogin().toLowerCase().equals(usernameOne.toLowerCase())){
                             //this onchange is called even when username two is changed, let's get out if so
                             return;
                         }
@@ -119,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
                         viewModel.getUser(UserNameFormError.ErrorTarget.USERNAME_TWO).observe(MainActivity.this, new Observer<User>() {
                             @Override
                             public void onChanged(@Nullable User userTwo) {
+                                if(userTwo == null || userTwo.getLogin().toLowerCase().equals(usernameOne.toLowerCase())){
+                                    return;
+                                }
+
                                 progressBar.setVisibility(View.GONE);
 
                                 Intent gameWinnerIntent = new Intent(MainActivity.this,

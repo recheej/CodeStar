@@ -6,6 +6,8 @@ import android.arch.lifecycle.MutableLiveData;
 import com.example.rechee.codestar.Enumerations;
 import com.example.rechee.codestar.GithubService;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,40 +34,34 @@ public class RepoRepositoryNetwork implements RepoRepository {
     }
 
     @Override
-    public LiveData<List<Repo>> getRepos(String username) {
-
-        reposLiveData = new MutableLiveData<>();
+    public List<Repo> getRepos(String username) {
 
         Call<List<Repo>> call = githubService.getRepos(username);
-        call.enqueue(new Callback<List<Repo>>() {
-            @Override
-            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-                if(response.isSuccessful()){
-                    //we got 200, user is authenticated
-                    reposLiveData.postValue(response.body());
-                }
-                else{
-                    if(response.code() == 403){
-                        if(response.headers().get("X-RateLimit-Remaining") != null){
-                            String rateRemaining = response.headers().get("X-RateLimit-Remaining");
-                            if(Integer.parseInt(rateRemaining) == 0){
-                                errorLiveData.postValue(Enumerations.Error.RATE_LIMITED);
-                                return;
-                            }
+        try {
+            Response<List<Repo>> response = call.execute();
+
+            if(response.isSuccessful()){
+                //we got 200, user is authenticated
+                return response.body();
+            }
+            else{
+                if(response.code() == 403){
+                    if(response.headers().get("X-RateLimit-Remaining") != null){
+                        String rateRemaining = response.headers().get("X-RateLimit-Remaining");
+                        if(Integer.parseInt(rateRemaining) == 0){
+                            errorLiveData.postValue(Enumerations.Error.RATE_LIMITED);
+                            return new ArrayList<>();
                         }
                     }
-
-                    errorLiveData.postValue(Enumerations.Error.INVALID_USERNAME);
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Repo>> call, Throwable t) {
-                errorLiveData.postValue(Enumerations.Error.NO_INTERNET);
+                errorLiveData.postValue(Enumerations.Error.INVALID_USERNAME);
             }
-        });
+        } catch (IOException e) {
+            errorLiveData.postValue(Enumerations.Error.NO_INTERNET);
+        }
 
-        return reposLiveData;
+        return new ArrayList<>();
     }
 
     @Override

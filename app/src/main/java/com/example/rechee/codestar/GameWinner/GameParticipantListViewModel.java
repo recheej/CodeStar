@@ -8,6 +8,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.example.rechee.codestar.CodeStarApplication;
@@ -31,6 +32,7 @@ public class GameParticipantListViewModel extends ViewModel {
     private LiveData<UserNameFormError> error;
     private LiveData<List<Repo>> repos;
     private MutableLiveData<String> username;
+    private MutableLiveData<List<Repo>> reposAsync;
 
     private RepoRepository repoRepository;
 
@@ -57,9 +59,14 @@ public class GameParticipantListViewModel extends ViewModel {
         });
 
         this.repos = Transformations.switchMap(username, new Function<String, LiveData<List<Repo>>>() {
+
             @Override
             public LiveData<List<Repo>> apply(String username) {
-                return Transformations.map(repoRepository.getRepos(username), new Function<List<Repo>, List<Repo>>() {
+
+                reposAsync = new MutableLiveData<>();
+
+                new GetReposTask().execute(new AsyncTaskParam(username, repoRepository, reposAsync));
+                return Transformations.map(reposAsync, new Function<List<Repo>, List<Repo>>() {
                     @Override
                     public List<Repo> apply(List<Repo> input) {
                         if(input == null){
@@ -108,5 +115,43 @@ public class GameParticipantListViewModel extends ViewModel {
 
     public LiveData<UserNameFormError> getError() {
         return error;
+    }
+
+    private class AsyncTaskParam {
+        private String username;
+        private RepoRepository repository;
+        private MutableLiveData<List<Repo>> user;
+
+        private AsyncTaskParam(String username, RepoRepository repository, MutableLiveData<List<Repo>> user) {
+            this.username = username;
+            this.repository = repository;
+            this.user = user;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public RepoRepository getRepository() {
+            return repository;
+        }
+
+        public MutableLiveData<List<Repo>> getRepos() {
+            return user;
+        }
+    }
+
+    private static class GetReposTask extends AsyncTask<AsyncTaskParam, Void, Void> {
+
+        @Override
+        protected Void doInBackground(AsyncTaskParam... params) {
+            AsyncTaskParam param = params[0];
+            param.getRepos().postValue(param.getRepository().getRepos(param.getUsername()));
+            return null;
+        }
     }
 }

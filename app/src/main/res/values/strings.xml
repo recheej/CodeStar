@@ -11,4 +11,7 @@
     <string name="number_of_stars">Number of stars: %d</string>
     <string name="user_with_most_stars">User with most stars: </string>
     <string name="we_have_a_winner">We have a winner!</string>
+    <string name="tie">Tie!</string>
+    <string name="users_same_stars">Both users have the same amount of stars.</string>
+    <string name="error_no_repos">This user has no repos.</string>
 </resources>

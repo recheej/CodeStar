@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rechee.codestar.CodeStarApplication;
@@ -38,6 +40,9 @@ public class GameWinnerActivity extends AppCompatActivity implements ListListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_winner);
 
+        final ViewGroup winnerContainer = findViewById(R.id.container_winner);
+        final ViewGroup tieContainer = findViewById(R.id.container_tie);
+
         final TextView winningUsernameTextView = findViewById(R.id.textView_winnerUsername);
 
         Intent intent = getIntent();
@@ -61,7 +66,19 @@ public class GameWinnerActivity extends AppCompatActivity implements ListListene
         viewModel.getWinningUser().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String winningUsername) {
+                tieContainer.setVisibility(View.GONE);
+                winnerContainer.setVisibility(View.VISIBLE);
+
                 winningUsernameTextView.setText(winningUsername);
+            }
+        });
+
+        viewModel.getTie().observe(this, new Observer<Void>() {
+            @Override
+            public void onChanged(@Nullable Void aVoid) {
+                tieContainer.setVisibility(View.VISIBLE);
+                winnerContainer.setVisibility(View.GONE);
+
             }
         });
     }

@@ -85,6 +85,12 @@ public class UserReposFragment extends Fragment {
         return view;
     }
 
+    private void showError(String error){
+        errorTextView.setText(error);
+        recyclerView.setVisibility(View.GONE);
+        errorTextView.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -108,8 +114,7 @@ public class UserReposFragment extends Fragment {
                 if(userNameFormError != null){
                     switch (userNameFormError.getError()){
                         default:
-                            errorTextView.setText(userNameFormError.getErrorMessage());
-                            errorTextView.setVisibility(View.VISIBLE);
+                            showError(userNameFormError.getErrorMessage());
                     }
                 }
             }
@@ -130,6 +135,9 @@ public class UserReposFragment extends Fragment {
         viewModel.getTotalStarCount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer starCount) {
+                if(starCount == 0){
+                    showError(getString(R.string.error_no_repos));
+                }
                 UserReposFragment.this.listListener.OnStarCountReceived(username, starCount);
             }
         });

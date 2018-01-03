@@ -8,30 +8,60 @@
     tools:context=".GameWinner.GameWinnerActivity"
     android:paddingTop="10dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/we_have_a_winner"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/container_winner"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/user_with_most_stars"
-            android:paddingEnd="10dp"/>
-
-        <TextView
-            android:id="@+id/textView_winnerUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="username here"
+            android:text="@string/we_have_a_winner"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_with_most_stars"
+                android:paddingEnd="10dp"/>
+
+            <TextView
+                android:id="@+id/textView_winnerUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username here"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/container_tie"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tie"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/users_same_stars"/>
     </LinearLayout>
 
 
