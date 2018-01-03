@@ -63,7 +63,8 @@ public class MainViewModelTest {
         Context context = mock(Context.class);
         MainViewModel viewModel = new MainViewModel(userRepository, context);
 
-        viewModel.getUser(usernameOne, UserNameFormError.ErrorTarget.USERNAME_ONE).observeForever(new Observer<User>() {
+        viewModel.setUsername(usernameOne);
+        viewModel.getUser(UserNameFormError.ErrorTarget.USERNAME_ONE).observeForever(new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 assertNotNull(user);
@@ -91,6 +92,7 @@ public class MainViewModelTest {
 
         MainViewModel viewModel = new MainViewModel(userRepository, context);
 
+        viewModel.setUsername("test");
         viewModel.getError().observeForever(new Observer<UserNameFormError>() {
             @Override
             public void onChanged(@Nullable UserNameFormError userNameFormError) {

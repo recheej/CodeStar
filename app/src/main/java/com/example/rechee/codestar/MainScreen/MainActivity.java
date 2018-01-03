@@ -3,6 +3,7 @@ package com.example.rechee.codestar.MainScreen;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     ViewModelFactory viewModelFactory;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText editTextUsernameTwo = findViewById(R.id.username_two);
 
         Button startGameButton = findViewById(R.id.button_start_game);
-        final ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
 
         final TextView errorTextView = findViewById(R.id.textView_error);
 
@@ -104,10 +106,17 @@ public class MainActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                viewModel.getUser(usernameOne, UserNameFormError.ErrorTarget.USERNAME_ONE).observe(MainActivity.this, new Observer<User>() {
+                viewModel.setUsername(usernameOne);
+                viewModel.getUser(UserNameFormError.ErrorTarget.USERNAME_ONE).observe(MainActivity.this, new Observer<User>() {
                     @Override
                     public void onChanged(@Nullable final User userOne) {
-                        viewModel.getUser(usernameTwo, UserNameFormError.ErrorTarget.USERNAME_TWO).observe(MainActivity.this, new Observer<User>() {
+                        if(!userOne.getLogin().toLowerCase().equals(usernameOne.toLowerCase())){
+                            //this onchange is called even when username two is changed, let's get out if so
+                            return;
+                        }
+
+                        viewModel.setUsername(usernameTwo);
+                        viewModel.getUser(UserNameFormError.ErrorTarget.USERNAME_TWO).observe(MainActivity.this, new Observer<User>() {
                             @Override
                             public void onChanged(@Nullable User userTwo) {
                                 progressBar.setVisibility(View.GONE);

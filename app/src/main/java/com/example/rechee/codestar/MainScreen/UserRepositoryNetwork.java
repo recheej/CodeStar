@@ -8,6 +8,8 @@ import com.example.rechee.codestar.GithubService;
 import com.example.rechee.codestar.MainScreen.User;
 import com.example.rechee.codestar.MainScreen.UserRepository;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import retrofit2.Call;
@@ -32,40 +34,64 @@ public class UserRepositoryNetwork implements UserRepository {
     }
 
     @Override
-    public LiveData<User> getUser(String username) {
-
-        userLiveData = new MutableLiveData<>();
+    public User getUser(String username) {
 
         Call<User> call = githubService.getUser(username);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()){
-                    //we got 200, user is authenticated
-                    userLiveData.postValue(response.body());
-                }
-                else{
-                    if(response.code() == 403){
-                        if(response.headers().get("X-RateLimit-Remaining") != null){
-                            String rateRemaining = response.headers().get("X-RateLimit-Remaining");
-                            if(Integer.parseInt(rateRemaining) == 0){
-                                errorLiveData.postValue(Enumerations.Error.RATE_LIMITED);
-                                return;
-                            }
+
+        try{
+            Response response = call.execute();
+
+            if(response.isSuccessful()){
+                //we got 200, user is authenticated
+                return (User) response.body();
+            }
+            else{
+                if(response.code() == 403){
+                    if(response.headers().get("X-RateLimit-Remaining") != null){
+                        String rateRemaining = response.headers().get("X-RateLimit-Remaining");
+                        if(Integer.parseInt(rateRemaining) == 0){
+                            errorLiveData.postValue(Enumerations.Error.RATE_LIMITED);
                         }
                     }
-
-                    errorLiveData.postValue(Enumerations.Error.INVALID_USERNAME);
                 }
-            }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                errorLiveData.postValue(Enumerations.Error.NO_INTERNET);
+                errorLiveData.postValue(Enumerations.Error.INVALID_USERNAME);
             }
-        });
+        }
+        catch (IOException ioException){
+            errorLiveData.postValue(Enumerations.Error.NO_INTERNET);
+        }
 
-        return userLiveData;
+        return null;
+//        call.enqueue(new Callback<User>() {
+//            @Override
+//            public void onResponse(Call<User> call, Response<User> response) {
+//                if(response.isSuccessful()){
+//                    //we got 200, user is authenticated
+//                    userLiveData.postValue(response.body());
+//                }
+//                else{
+//                    if(response.code() == 403){
+//                        if(response.headers().get("X-RateLimit-Remaining") != null){
+//                            String rateRemaining = response.headers().get("X-RateLimit-Remaining");
+//                            if(Integer.parseInt(rateRemaining) == 0){
+//                                errorLiveData.postValue(Enumerations.Error.RATE_LIMITED);
+//                                return;
+//                            }
+//                        }
+//                    }
+//
+//                    errorLiveData.postValue(Enumerations.Error.INVALID_USERNAME);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//                errorLiveData.postValue(Enumerations.Error.NO_INTERNET);
+//            }
+//        });
+//
+//        return userLiveData;
     }
 
     @Override

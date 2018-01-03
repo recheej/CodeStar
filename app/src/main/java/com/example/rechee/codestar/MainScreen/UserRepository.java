@@ -9,6 +9,6 @@ import com.example.rechee.codestar.Enumerations;
  */
 
 public interface UserRepository {
-    LiveData<User> getUser(String username);
+    User getUser(String username);
     LiveData<Enumerations.Error> getError();
 }
