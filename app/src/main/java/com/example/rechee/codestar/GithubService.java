@@ -17,10 +17,8 @@ import retrofit2.http.Path;
 
 public interface GithubService {
     @GET("/users/{username}")
-    @Headers("Authorization: Basic cmVjaGVlajpjYWNhMTk5Mg==")
     Call<User> getUser(@Path("username") String username);
 
     @GET("/users/{username}/repos")
-    @Headers("Authorization: Basic cmVjaGVlajpjYWNhMTk5Mg==")
     Call<List<Repo>> getRepos(@Path("username") String username);
 }
