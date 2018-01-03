@@ -3,6 +3,8 @@ package com.example.rechee.codestar.dagger.viewmodel;
 import com.example.rechee.codestar.GameWinner.GameParticipantListViewModel;
 import com.example.rechee.codestar.GameWinner.GameWinnerViewModel;
 import com.example.rechee.codestar.MainScreen.MainViewModel;
+import com.example.rechee.codestar.dagger.activity.ActivityComponent;
+import com.example.rechee.codestar.dagger.activity.ViewModelModule;
 
 import dagger.Subcomponent;
 
@@ -17,4 +19,5 @@ public interface ViewModelComponent {
     void inject(GameParticipantListViewModel mainViewModel);
     void inject(GameWinnerViewModel mainViewModel);
 
+    ActivityComponent plus(ViewModelModule viewModelModule);
 }

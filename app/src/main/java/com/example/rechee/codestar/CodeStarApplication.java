@@ -3,6 +3,7 @@ package com.example.rechee.codestar;
 import android.app.Application;
 
 import com.example.rechee.codestar.dagger.application.ApplicationComponent;
+import com.example.rechee.codestar.dagger.application.ApplicationContextModule;
 import com.example.rechee.codestar.dagger.application.DaggerApplicationComponent;
 
 /**
@@ -18,6 +19,7 @@ public class CodeStarApplication extends Application {
         super.onCreate();
 
         applicationComponent = DaggerApplicationComponent.builder()
+                .applicationContextModule(new ApplicationContextModule(this))
                 .build();
     }
 

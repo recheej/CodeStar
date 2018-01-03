@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
 import com.example.rechee.codestar.CodeStarApplication;
@@ -13,7 +14,7 @@ import com.example.rechee.codestar.dagger.viewmodel.RepositoryModule;
  * Created by Rechee on 1/1/2018.
  */
 
-public class GameWinnerViewModel extends AndroidViewModel {
+public class GameWinnerViewModel extends ViewModel {
 
     private String usernameOne;
     private String usernameTwo;
@@ -22,13 +23,9 @@ public class GameWinnerViewModel extends AndroidViewModel {
 
     private MutableLiveData<String> winningUser;
 
-    public GameWinnerViewModel(@NonNull Application application) {
-        super(application);
+    public GameWinnerViewModel() {
+        super();
 
-        ((CodeStarApplication) application)
-                .getApplicationComponent()
-                .newViewModelComponent(new RepositoryModule())
-                .inject(this);
         winningUser = new MutableLiveData<>();
     }
 

@@ -14,12 +14,18 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.rechee.codestar.CodeStarApplication;
 import com.example.rechee.codestar.MainScreen.MainActivity;
 import com.example.rechee.codestar.MainScreen.UserNameFormError;
 import com.example.rechee.codestar.R;
+import com.example.rechee.codestar.ViewModelFactory;
+import com.example.rechee.codestar.dagger.activity.ViewModelModule;
+import com.example.rechee.codestar.dagger.viewmodel.RepositoryModule;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 
 /**
@@ -37,6 +43,9 @@ public class UserReposFragment extends Fragment {
     private List<Repo> repos;
     private ReposAdapter adapter;
     private ListListener listListener;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
 
     public static UserReposFragment newInstance(String username){
         UserReposFragment userReposFragment = new UserReposFragment();
@@ -77,12 +86,19 @@ public class UserReposFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         username = getArguments().getString(USERNAME);
 
-        viewModel = ViewModelProviders.of(this).get(GameParticipantListViewModel.class);
+        ((CodeStarApplication) getActivity().getApplicationContext())
+                .getApplicationComponent()
+                .plus(new RepositoryModule())
+                .plus(new ViewModelModule())
+                .inject(this);
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(GameParticipantListViewModel.class);
 
         viewModel.getError().observe(this, new Observer<UserNameFormError>() {
             @Override

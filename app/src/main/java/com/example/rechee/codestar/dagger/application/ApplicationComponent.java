@@ -10,7 +10,7 @@ import dagger.Component;
  */
 
 @ApplicationScope
-@Component(modules={})
+@Component(modules={ApplicationContextModule.class})
 public interface ApplicationComponent {
-    ViewModelComponent newViewModelComponent(RepositoryModule repositoryModule);
+    ViewModelComponent plus(RepositoryModule repositoryModule);
 }

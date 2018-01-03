@@ -14,16 +14,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rechee.codestar.CodeStarApplication;
 import com.example.rechee.codestar.GameWinner.GameWinnerActivity;
 import com.example.rechee.codestar.R;
+import com.example.rechee.codestar.ViewModelFactory;
+import com.example.rechee.codestar.dagger.activity.ViewModelModule;
+import com.example.rechee.codestar.dagger.viewmodel.RepositoryModule;
+import com.example.rechee.codestar.dagger.viewmodel.ViewModelComponent;
 
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String USER_ID_ONE = "userIdOne";
     public static final String USER_ID_TWO = "userIdTwo";
     private MainViewModel viewModel;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +51,13 @@ public class MainActivity extends AppCompatActivity {
         final TextInputLayout userNameOneInputLayout = findViewById(R.id.text_layout_username_one);
         final TextInputLayout userNameTwoInputLayout = findViewById(R.id.text_layout_username_two);
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        ((CodeStarApplication) getApplicationContext())
+                .getApplicationComponent()
+                .plus(new RepositoryModule())
+                .plus(new ViewModelModule())
+                .inject(this);
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
 
         viewModel.getError().observe(this, new Observer<UserNameFormError>() {
             @Override

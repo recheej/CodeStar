@@ -13,9 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.rechee.codestar.CodeStarApplication;
 import com.example.rechee.codestar.GameWinner.UserReposFragment.ListListener;
 import com.example.rechee.codestar.MainScreen.MainActivity;
 import com.example.rechee.codestar.R;
+import com.example.rechee.codestar.ViewModelFactory;
+import com.example.rechee.codestar.dagger.activity.ViewModelModule;
+import com.example.rechee.codestar.dagger.viewmodel.RepositoryModule;
+
+import javax.inject.Inject;
 
 public class GameWinnerActivity extends AppCompatActivity implements ListListener {
 
@@ -23,6 +29,9 @@ public class GameWinnerActivity extends AppCompatActivity implements ListListene
     private String userIdTwo;
     private UserPagerAdapter userPagerAdapter;
     private GameWinnerViewModel viewModel;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +51,13 @@ public class GameWinnerActivity extends AppCompatActivity implements ListListene
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(userPager);
 
-        viewModel = ViewModelProviders.of(this).get(GameWinnerViewModel.class);
+        ((CodeStarApplication) getApplicationContext())
+                .getApplicationComponent()
+                .plus(new RepositoryModule())
+                .plus(new ViewModelModule())
+                .inject(this);
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameWinnerViewModel.class);
         viewModel.getWinningUser().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String winningUsername) {
