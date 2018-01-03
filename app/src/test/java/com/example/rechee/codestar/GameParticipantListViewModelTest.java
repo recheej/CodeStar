@@ -18,9 +18,12 @@ import com.example.rechee.codestar.MainScreen.UserRepository;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,9 @@ import static org.mockito.Mockito.when;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
+
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class GameParticipantListViewModelTest {
 
     @Mock
@@ -68,12 +74,9 @@ public class GameParticipantListViewModelTest {
         repos.add(repoOne);
         repos.add(repoTwo);
 
-        MutableLiveData<List<Repo>> repoLiveData = new MutableLiveData<>();
-        repoLiveData.setValue(repos);
-
         String testUsername = "username1";
 
-        when(repoRepository.getRepos(testUsername)).thenReturn(repoLiveData);
+        when(repoRepository.getRepos(testUsername)).thenReturn(repos);
 
         CodeStarApplication context = mock(CodeStarApplication.class);
         GameParticipantListViewModel viewModel = new GameParticipantListViewModel(repoRepository,
@@ -118,12 +121,9 @@ public class GameParticipantListViewModelTest {
         repos.add(repoOne);
         repos.add(repoTwo);
 
-        MutableLiveData<List<Repo>> repoLiveData = new MutableLiveData<>();
-        repoLiveData.setValue(repos);
-
         String testUsername = "username1";
 
-        when(repoRepository.getRepos(testUsername)).thenReturn(repoLiveData);
+        when(repoRepository.getRepos(testUsername)).thenReturn(repos);
 
         CodeStarApplication context = mock(CodeStarApplication.class);
         GameParticipantListViewModel viewModel = new GameParticipantListViewModel(repoRepository,
@@ -160,12 +160,9 @@ public class GameParticipantListViewModelTest {
         repos.add(repoOne);
         repos.add(repoTwo);
 
-        MutableLiveData<List<Repo>> repoLiveData = new MutableLiveData<>();
-        repoLiveData.setValue(repos);
-
         String testUsername = "username1";
 
-        when(repoRepository.getRepos(testUsername)).thenReturn(repoLiveData);
+        when(repoRepository.getRepos(testUsername)).thenReturn(repos);
 
         CodeStarApplication context = mock(CodeStarApplication.class);
         GameParticipantListViewModel viewModel = new GameParticipantListViewModel(repoRepository,
@@ -189,11 +186,8 @@ public class GameParticipantListViewModelTest {
 
         final List<Repo> repos = new ArrayList<>();
 
-        MutableLiveData<List<Repo>> repoLiveData = new MutableLiveData<>();
-        repoLiveData.setValue(repos);
-
         String testUsername = "username1";
-        when(repoRepository.getRepos(testUsername)).thenReturn(repoLiveData);
+        when(repoRepository.getRepos(testUsername)).thenReturn(repos);
 
         CodeStarApplication context = mock(CodeStarApplication.class);
         GameParticipantListViewModel viewModel = new GameParticipantListViewModel(repoRepository,
@@ -214,12 +208,9 @@ public class GameParticipantListViewModelTest {
 
         final List<Repo> repos = null;
 
-        MutableLiveData<List<Repo>> repoLiveData = new MutableLiveData<>();
-        repoLiveData.setValue(repos);
-
         String testUsername = "username1";
 
-        when(repoRepository.getRepos(testUsername)).thenReturn(repoLiveData);
+        when(repoRepository.getRepos(testUsername)).thenReturn(repos);
 
         CodeStarApplication context = mock(CodeStarApplication.class);
         GameParticipantListViewModel viewModel = new GameParticipantListViewModel(repoRepository,

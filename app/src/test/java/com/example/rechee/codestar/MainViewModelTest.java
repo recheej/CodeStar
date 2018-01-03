@@ -18,9 +18,12 @@ import com.example.rechee.codestar.dagger.application.ApplicationComponent;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -33,6 +36,8 @@ import static org.mockito.Mockito.when;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class MainViewModelTest {
 
     @Mock
@@ -56,9 +61,8 @@ public class MainViewModelTest {
         userOne.setEmail("test@example.com");
 
         MutableLiveData<User> userOneLiveData = new MutableLiveData<>();
-        userOneLiveData.setValue(userOne);
 
-        when(userRepository.getUser(usernameOne)).thenReturn(userOneLiveData);
+        when(userRepository.getUser(usernameOne)).thenReturn(userOne);
 
         Context context = mock(Context.class);
         MainViewModel viewModel = new MainViewModel(userRepository, context);
