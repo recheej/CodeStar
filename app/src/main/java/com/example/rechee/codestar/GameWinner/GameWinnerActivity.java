@@ -123,4 +123,11 @@ public class GameWinnerActivity extends AppCompatActivity implements ListListene
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm .popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        finish();
+    }
 }
